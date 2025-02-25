@@ -39,36 +39,25 @@
           </li>
         </ul>
     </header>
-    <main class="hero">
-
-        <h1 class="heroText">Книги які полюбляють наші користувачі</h1>
-        <a href="Harry_Potter.html" class="card-link">
-            <div class="IndexCard">
-                <div>
-                    <img src="image/Harry_Potter.jpg" alt="Гаррі Поттер">    
-                </div> 
-                <p class="title">Гаррі Поттер</p>  
+    <main>
+        <div class="book-container">
+            <img src="image/Harry_Potter.jpg" alt="Гаррі Поттер" class="book-image">
+            <div class="book-details">
+                <h1>Гаррі Поттер і філософський камінь</h1>
+                <p class="author">Автор: Джоан Роулінг</p>
+                <p class="genre">Жанр: Фентезі</p>
+                <p class="description">
+                    Гаррі Поттер – хлопчик, який дізнається, що він чарівник і вступає до школи Гоґвортс.
+                    Його чекають пригоди, друзі та боротьба з Темним Лордом.
+                </p>
+                <div class="buttons">
+                    <button class="add-to-reading" onclick="addToReadingList()">➕ Додати в список читання</button>
+                    <button class="rent-book" onclick="rentBook()">📚 Взяти в оренду</button>
+                </div>
+                <p id="message"></p>
             </div>
-        </a>
-        <a href="your-link.html" class="card-link">
-            <div class="IndexCard">
-                <div>
-                    <img src="image/Harry_Potter.jpg" alt="Гаррі Поттер">    
-                </div> 
-                <p class="title">Гаррі Поттер</p>  
-            </div>
-        </a>
-        <a href="your-link.html" class="card-link">
-            <div class="IndexCard">
-                <div>
-                    <img src="image/Harry_Potter.jpg" alt="Гаррі Поттер">    
-                </div> 
-                <p class="title">Гаррі Поттер</p>  
-            </div>
-        </a>
-
+        </div>
     </main>
-    
     <footer class="footer">
         <div class="footerContent">
           <div class="footer_contacts">
@@ -88,5 +77,6 @@
           </div>
         </div>
     </footer>
+
 </body>
 </html>
