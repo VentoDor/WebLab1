@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book</title>
     <link rel="stylesheet" href="style.css" />
+    <script src="script.js"></script>
 </head>
 <body class="IndexBody">
     <header class="header">
@@ -30,36 +31,25 @@
           </li>
         </ul>
     </header>
-    <main class="hero">
+    <main class="profile-container">
+        <h1>👤 Профіль користувача</h1>
+        <h2 id="userName">Привіт, Користувач!</h2>
 
-        <h1 class="heroText">Книги які полюбляють наші користувачі</h1>
-        <a href="Harry_Potter.html" class="card-link">
-            <div class="IndexCard">
-                <div>
-                    <img src="image/Harry_Potter.jpg" alt="Гаррі Поттер">    
-                </div> 
-                <p class="title">Гаррі Поттер</p>  
-            </div>
-        </a>
-        <a href="your-link.html" class="card-link">
-            <div class="IndexCard">
-                <div>
-                    <img src="image/Harry_Potter.jpg" alt="Гаррі Поттер">    
-                </div> 
-                <p class="title">Гаррі Поттер</p>  
-            </div>
-        </a>
-        <a href="your-link.html" class="card-link">
-            <div class="IndexCard">
-                <div>
-                    <img src="image/Harry_Potter.jpg" alt="Гаррі Поттер">    
-                </div> 
-                <p class="title">Гаррі Поттер</p>  
-            </div>
-        </a>
+        <section>
+            <h3>📚 Рекомендовані книги</h3>
+            <div class="book-list" id="recommendedBooks"></div>
+        </section>
 
+        <section>
+            <h3>📖 Читає зараз</h3>
+            <div class="book-list" id="readingList"></div>
+        </section>
+
+        <section>
+            <h3>📚 В оренді</h3>
+            <div class="book-list" id="rentedBooks"></div>
+        </section>
     </main>
-    
     <footer class="footer">
         <div class="footerContent">
           <div class="footer_contacts">

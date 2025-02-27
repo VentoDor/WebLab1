@@ -21,6 +21,15 @@
             <a href="catalogBook.html" class="nav_link">Каталог</a>
           </li>
           <li class="nav_item">
+            <a href="" class="nav_link">Фантастика</a>
+          </li>
+          <li class="nav_item">
+            <a href="" class="nav_link">Роман</a>
+          </li>
+          <li class="nav_item">
+            <a href="" class="nav_link">Драма</a>
+          </li>
+          <li class="nav_item">
             <a href="auth.html" class="nav_link"
               ><img
                 src="image/profile_icon.png"
@@ -30,36 +39,37 @@
           </li>
         </ul>
     </header>
-    <main class="hero">
+    <div class="auth-container">
+        <h1 id="formTitle">Вхід</h1>
 
-        <h1 class="heroText">Книги які полюбляють наші користувачі</h1>
-        <a href="Harry_Potter.html" class="card-link">
-            <div class="IndexCard">
-                <div>
-                    <img src="image/Harry_Potter.jpg" alt="Гаррі Поттер">    
-                </div> 
-                <p class="title">Гаррі Поттер</p>  
-            </div>
-        </a>
-        <a href="your-link.html" class="card-link">
-            <div class="IndexCard">
-                <div>
-                    <img src="image/Harry_Potter.jpg" alt="Гаррі Поттер">    
-                </div> 
-                <p class="title">Гаррі Поттер</p>  
-            </div>
-        </a>
-        <a href="your-link.html" class="card-link">
-            <div class="IndexCard">
-                <div>
-                    <img src="image/Harry_Potter.jpg" alt="Гаррі Поттер">    
-                </div> 
-                <p class="title">Гаррі Поттер</p>  
-            </div>
-        </a>
+        <!-- Форма входу -->
+        <form id="loginForm" class="auth-form">
+            <input type="email" id="loginEmail" placeholder="Електронна пошта" required>
+            <input type="password" id="loginPassword" placeholder="Пароль" required>
+            <button type="submit">Увійти</button>
+            <p>Ще не маєте акаунту? <a href="register.html" id="showRegister">Зареєструватися</a></p>
+        </form>
 
-    </main>
-    
+        <!-- Форма реєстрації -->
+        <form id="registerForm" class="auth-form hidden">
+            <input type="text" id="registerName" placeholder="Ім'я" required>
+            <input type="email" id="registerEmail" placeholder="Електронна пошта" required>
+            <input type="password" id="registerPassword" placeholder="Пароль" required>
+            <button type="submit">Зареєструватися</button>
+            <p>Вже маєте акаунт? <a href="auth.html" id="showLogin">Увійти</a></p>
+        </form>
+
+        <p id="message"></p>
+    </div>
+
+    <script src="script.js"></script>
+   
+   
+   
+   
+   
+   
+   
     <footer class="footer">
         <div class="footerContent">
           <div class="footer_contacts">
