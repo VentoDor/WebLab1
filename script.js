@@ -1,154 +1,192 @@
 document.addEventListener("DOMContentLoaded", function () {
+  /////////  Каталог книг  ///////////////////////
+  const books = [
+      { title: "Гаррі Поттер", genre: "fantasy", image: "image/Harry_Potter.jpg", link: "Harry_Potter.html" },
+      { title: "Шерлок Холмс", genre: "detective", image: "image/Sherlock_Holmes.jpg", link: "" },
+      { title: "Коротка історія часу", genre: "science", image: "image/Brief_History_of_Time.jpg", link: "" },
+      { title: "Володар перснів", genre: "fantasy", image: "image/Lord_of_the_Rings.webp", link: "" },
+      { title: "Думай і багатій", genre: "science", image: "image/Think_and_Grow_Rich.jpg", link: "" },
+  ];
 
-    /////////  Каталог книг  ///////////////////////
+  const catalog = document.getElementById("bookCatalog");
 
-    const books = [
-        { title: "Гаррі Поттер", genre: "fantasy", image: "image/Harry_Potter.jpg", link: "Harry_Potter.html" },
-        { title: "Шерлок Холмс", genre: "detective", image: "image/Sherlock_Holmes.jpg", link: "" },
-        { title: "Коротка історія часу", genre: "science", image: "image/Brief_History_of_Time.jpg", link: "" },
-        { title: "Володар перснів", genre: "fantasy", image: "image/Lord_of_the_Rings.webp", link: "" },
-        { title: "Думай і багатій", genre: "science", image: "image/Think_and_Grow_Rich.jpg", link: "" },
-    ];
+  if (catalog) {
+      function displayBooks(filteredBooks) {
+          catalog.innerHTML = "";
+          filteredBooks.forEach(book => {
+              const bookCard = document.createElement("div");
+              bookCard.classList.add("book-card");
+              bookCard.innerHTML = `
+                  <a href="${book.link || '#'}" class="book-link">
+                      <img src="${book.image}" alt="${book.title}">
+                      <p class="title">${book.title}</p>
+                      <p class="genre">${getGenreName(book.genre)}</p>
+                  </a>
+              `;
+              catalog.appendChild(bookCard);
+          });
+      }
 
-    const catalog = document.getElementById("bookCatalog");
+      function filterBooks() {
+          const searchQuery = document.getElementById("searchInput")?.value.toLowerCase() || "";
+          const selectedGenre = document.getElementById("genreFilter")?.value || "all";
 
-    if (catalog) { // Перевіряємо, чи є каталог на сторінці
-        function displayBooks(filteredBooks) {
-            catalog.innerHTML = "";
-            filteredBooks.forEach(book => {
-                const bookCard = document.createElement("div");
-                bookCard.classList.add("book-card");
-                bookCard.innerHTML = `
-                    <a href="${book.link || '#'}" class="book-link">
-                        <img src="${book.image}" alt="${book.title}">
-                        <p class="title">${book.title}</p>
-                        <p class="genre">${getGenreName(book.genre)}</p>
-                    </a>
-                `;
-                catalog.appendChild(bookCard);
-            });
-        }
+          const filteredBooks = books.filter(book => {
+              const matchesSearch = book.title.toLowerCase().includes(searchQuery);
+              const matchesGenre = selectedGenre === "all" || book.genre === selectedGenre;
+              return matchesSearch && matchesGenre;
+          });
 
-        function filterBooks() {
-            const searchQuery = document.getElementById("searchInput")?.value.toLowerCase() || "";
-            const selectedGenre = document.getElementById("genreFilter")?.value || "all";
+          displayBooks(filteredBooks);
+      }
 
-            const filteredBooks = books.filter(book => {
-                const matchesSearch = book.title.toLowerCase().includes(searchQuery);
-                const matchesGenre = selectedGenre === "all" || book.genre === selectedGenre;
-                return matchesSearch && matchesGenre;
-            });
+      function getGenreName(genre) {
+          const genreNames = {
+              "fantasy": "Фентезі",
+              "detective": "Детектив",
+              "science": "Наукова література"
+          };
+          return genreNames[genre] || "Інший";
+      }
 
-            displayBooks(filteredBooks);
-        }
+      displayBooks(books);
 
-        function getGenreName(genre) {
-            const genreNames = {
-                "fantasy": "Фентезі",
-                "detective": "Детектив",
-                "science": "Наукова література"
-            };
-            return genreNames[genre] || "Інший";
-        }
+      document.getElementById("searchInput")?.addEventListener("input", filterBooks);
+      document.getElementById("genreFilter")?.addEventListener("change", filterBooks);
+  }
 
-        displayBooks(books);
-    }
+  /////////  Логін та реєстрація  ///////////////////////
+  const loginForm = document.getElementById("loginForm");
+  const registerForm = document.getElementById("registerForm");
+  const formTitle = document.getElementById("formTitle");
+  const message = document.getElementById("message");
 
-    /////////  Логін та реєстрація  ///////////////////////
+  if (loginForm && registerForm) {
+      // Переключення між формами входу та реєстрації
+      document.getElementById("showRegister")?.addEventListener("click", function (e) {
+          e.preventDefault();
+          loginForm.classList.add("hidden");
+          registerForm.classList.remove("hidden");
+          formTitle.textContent = "Реєстрація";
+      });
 
-    const loginForm = document.getElementById("loginForm");
-    const registerForm = document.getElementById("registerForm");
-    const formTitle = document.getElementById("formTitle");
-    const message = document.getElementById("message");
+      document.getElementById("showLogin")?.addEventListener("click", function (e) {
+          e.preventDefault();
+          registerForm.classList.add("hidden");
+          loginForm.classList.remove("hidden");
+          formTitle.textContent = "Вхід";
+      });
 
-    if (loginForm && registerForm) { // Перевіряємо, чи є форма входу/реєстрації на сторінці
-        document.getElementById("showRegister")?.addEventListener("click", function (e) {
-            e.preventDefault();
-            loginForm.classList.add("hidden");
-            registerForm.classList.remove("hidden");
-            formTitle.textContent = "Реєстрація";
-        });
+      // Логіка входу
+      loginForm.addEventListener("submit", async function (e) {
+          e.preventDefault();
+          const email = document.getElementById("loginEmail").value;
+          const password = document.getElementById("loginPassword").value;
 
-        document.getElementById("showLogin")?.addEventListener("click", function (e) {
-            e.preventDefault();
-            registerForm.classList.add("hidden");
-            loginForm.classList.remove("hidden");
-            formTitle.textContent = "Вхід";
-        });
+          try {
+              const response = await fetch('http://localhost:4000/users/login', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ email, password })
+              });
 
-        loginForm.addEventListener("submit", function (e) {
-            e.preventDefault();
-            const email = document.getElementById("loginEmail").value;
-            const password = document.getElementById("loginPassword").value;
+              if (response.ok) {
+                  const data = await response.json();
+                  localStorage.setItem('token', data.token); // Зберігаємо токен
+                  message.textContent = "✅ Успішний вхід!";
+                  message.style.color = "green";
+                  setTimeout(() => {
+                      window.location.href = "profile.html"; // Переходимо на сторінку профілю
+                  }, 1000);
+              } else {
+                  const error = await response.json();
+                  message.textContent = `❌ ${error.error || 'Невірний email або пароль!'}`;
+                  message.style.color = "red";
+              }
+          } catch (err) {
+              message.textContent = "❌ Помилка мережі!";
+              message.style.color = "red";
+          }
+      });
 
-            if (email === "test@gmail.com" && password === "123456") {
-                message.textContent = "✅ Успішний вхід!";
-                message.style.color = "green";
-            } else {
-                message.textContent = "❌ Невірний email або пароль!";
-                message.style.color = "red";
-            }
-        });
+      // Логіка реєстрації
+      registerForm.addEventListener("submit", async function (e) {
+          e.preventDefault();
+          const name = document.getElementById("registerName").value;
+          const email = document.getElementById("registerEmail").value;
+          const password = document.getElementById("registerPassword").value;
 
-        registerForm.addEventListener("submit", function (e) {
-            e.preventDefault();
-            const name = document.getElementById("registerName").value;
-            const email = document.getElementById("registerEmail").value;
-            const password = document.getElementById("registerPassword").value;
+          try {
+              const response = await fetch('http://localhost:4000/users/register', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ name, email, password })
+              });
 
-            if (name && email && password) {
-                message.textContent = `✅ Реєстрація успішна, ${name}!`;
-                message.style.color = "green";
-                registerForm.reset();
-                setTimeout(() => {
-                    window.location.href = "login.html";
-                }, 2000);
-            } else {
-                message.textContent = "❌ Заповніть всі поля!";
-                message.style.color = "red";
-            }
-        });
-    }
+              if (response.ok) {
+                  const data = await response.json();
+                  message.textContent = `✅ Реєстрація успішна, ${data.name}!`;
+                  message.style.color = "green";
+                  registerForm.reset();
+                  setTimeout(() => {
+                      window.location.href = "auth.html"; // Переходимо на сторінку входу
+                  }, 2000);
+              } else {
+                  const error = await response.json();
+                  message.textContent = `❌ ${error.message || 'Не вдалося зареєструватися!'}`;
+                  message.style.color = "red";
+              }
+          } catch (err) {
+              message.textContent = "❌ Помилка мережі!";
+              message.style.color = "red";
+          }
+      });
+  }
 
-    /////////  Профіль користувача  ///////////////////////
+  /////////  Профіль користувача  ///////////////////////
+  const recommendedBooks = [
+      { title: "Гаррі Поттер", image: "image/Harry_Potter.jpg" },
+      { title: "Володар перснів", image: "image/Lord_of_the_Rings.webp" }
+  ];
 
-    const recommendedBooks = [
-        { title: "Гаррі Поттер", image: "image/Harry_Potter.jpg" },
-        { title: "Володар перснів", image: "image/Lord_of_the_Rings.webp" }
-    ];
+  const readingList = [
+      { title: "Шерлок Холмс", image: "image/Sherlock_Holmes.jpg" }
+  ];
 
-    const readingList = [
-        { title: "Шерлок Холмс", image: "image/Sherlock_Holmes.jpg" }
-    ];
+  const rentedBooks = [
+      { title: "Думай і багатій", image: "image/Think_and_Grow_Rich.jpg" }
+  ];
 
-    const rentedBooks = [
-        { title: "Думай і багатій", image: "image/Think_and_Grow_Rich.jpg" }
-    ];
+  function displayBooksInProfile(books, containerId) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
 
-    function displayBooksInProfile(books, containerId) {
-        const container = document.getElementById(containerId);
-        if (!container) return; // Перевіряємо, чи контейнер існує
+      container.innerHTML = "";
+      books.forEach(book => {
+          const bookCard = document.createElement("div");
+          bookCard.classList.add("book-card");
+          bookCard.innerHTML = `
+              <img src="${book.image}" alt="${book.title}">
+              <p class="book-title">${book.title}</p>
+          `;
+          container.appendChild(bookCard);
+      });
+  }
 
-        container.innerHTML = "";
-        books.forEach(book => {
-            const bookCard = document.createElement("div");
-            bookCard.classList.add("book-card");
-            bookCard.innerHTML = `
-                <img src="${book.image}" alt="${book.title}">
-                <p class="book-title">${book.title}</p>
-            `;
-            container.appendChild(bookCard);
-        });
-    }
+  displayBooksInProfile(recommendedBooks, "recommendedBooks");
+  displayBooksInProfile(readingList, "readingList");
+  displayBooksInProfile(rentedBooks, "rentedBooks");
 
-    displayBooksInProfile(recommendedBooks, "recommendedBooks");
-    displayBooksInProfile(readingList, "readingList");
-    displayBooksInProfile(rentedBooks, "rentedBooks");
+  // Встановлюємо ім'я користувача
+  const userName = document.getElementById("userName");
+  if (userName) {
+      const token = localStorage.getItem('token');
+      if (!token) {
+          alert("Ви повинні увійти!");
+          window.location.href = "login.html";
+          return;
+      }
 
-    // Встановлюємо ім'я користувача
-    const userName = document.getElementById("userName");
-    if (userName) {
-        userName.textContent = "Привіт, Олександр!";
-    }
-
+      userName.textContent = "Привіт, Олександр!"; // Тут можна отримати ім'я з API
+  }
 });
